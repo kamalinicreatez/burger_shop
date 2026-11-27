@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraveBite Kitchen | Gourmet Burgers &amp; Artisan Feast</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for crisp icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#FAF7F2',
+                            200: '#F2ECE1',
+                            300: '#E6DCCB',
+                        },
+                        brand: {
+                            terracotta: '#D95D24',
+                            amber: '#B44512',
+                            mustard: '#EAB308',
+                            olive: '#3F6212',
+                            espresso: '#1C1917',
+                            muted: '#6B625B'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 14px 40px -10px rgba(217, 93, 36, 0.16)',
+                        'card': '0 10px 30px -5px rgba(28, 25, 23, 0.06)',
+                        'card-hover': '0 24px 50px -10px rgba(217, 93, 36, 0.24)',
+                        'pill': '0 12px 35px -5px rgba(28, 25, 23, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Warm Gourmet Cream Background with subtle organic dot grid */
+        body {
+            background-color: #FAF7F2;
+            background-image: radial-gradient(#E6DCCB 1px, transparent 1px);
+            background-size: 32px 32px;
+            color: #1C1917;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF7F2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D6C7B2;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D95D24;
+        }
+
+        /* Smooth Fade-in Scale Animation for filtered cards */
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: translateY(16px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .animate-pop-in {
+            animation: popIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Hero Background 3-Image Slider Crossfade & Subtle Ken Burns Zoom */
+        .hero-slide {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.9s;
+        }
+        .hero-slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .hero-slide-bg {
+            transform: scale(1.0);
+            transition: transform 7s ease-out;
+        }
+        .hero-slide.active .hero-slide-bg {
+            transform: scale(1.08);
+        }
+
+        /* Rich Interactive Hover Micro-Interactions for Boxes, Buttons, and Images */
+        .hover-box {
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s ease;
+        }
+        .hover-box:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 24px 48px -12px rgba(217, 93, 36, 0.22);
+            border-color: rgba(217, 93, 36, 0.45);
+        }
+
+        .hover-img-zoom {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+        }
+        .group:hover .hover-img-zoom {
+            transform: scale(1.09) rotate(1.2deg);
+            filter: contrast(1.04) saturate(1.06);
+        }
+
+        .btn-interactive {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.25s ease,
+                        background-color 0.25s ease,
+                        color 0.25s ease;
+        }
+        .btn-interactive::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+            transform: skewX(-22deg);
+            transition: left 0.55s ease;
+            pointer-events: none;
+        }
+        .btn-interactive:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 26px -6px rgba(217, 93, 36, 0.35);
+        }
+        .btn-interactive:hover::after {
+            left: 140%;
+        }
+        .btn-interactive:active {
+            transform: translateY(0) scale(0.97);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-terracotta selection:text-white">
+
+    <!-- ==================== TOP NAVIGATION BAR ==================== -->
+    <header class="sticky top-0 z-40 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-cream-200 transition-all">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Left: Hamburger Menu Button & Brand -->
+            <div class="flex items-center gap-3.5">
+                <button id="open-nav-btn" aria-label="Open Navigation Menu"
+                    class="w-11 h-11 rounded-full bg-white shadow-card border border-cream-200 flex items-center justify-center text-brand-espresso hover:text-brand-terracotta hover:border-brand-terracotta hover:scale-105 active:scale-95 transition-all cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h11M4 17h16"/>
+                    </svg>
+                </button>
+                <a href="#" class="flex items-center gap-2.5 font-display font-extrabold text-lg sm:text-xl tracking-tight text-brand-espresso group">
+                    <span class="w-9 h-9 rounded-full bg-brand-terracotta text-white flex items-center justify-center text-sm shadow-sm group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fa-solid fa-burger"></i>
+                    </span>
+                    <span>CRAVE<span class="text-brand-terracotta">BITE</span> <span class="hidden sm:inline font-bold text-brand-muted text-base">Kitchen</span></span>
+                </a>
+            </div>
+
+            <!-- Center Quick Links (Desktop) -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-brand-muted">
+                <a href="#hero-slider-section" class="hover:text-brand-terracotta transition-colors">Home</a>
+                <a href="#menu-section" class="hover:text-brand-terracotta transition-colors">Menu</a>
+                <a href="#special-deals" class="hover:text-brand-terracotta transition-colors">Special Deals</a>
+                <a href="#services-section" class="hover:text-brand-terracotta transition-colors">Our Kitchen</a>
+            </nav>
+
+            <!-- Right: Frontend Interactive Order Preview CTA -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <button onclick="openCustomizeModal('b2')"
+                    class="btn-interactive flex items-center gap-2 bg-brand-terracotta hover:bg-brand-amber text-white px-4 sm:px-5 py-2.5 rounded-full shadow-soft text-xs sm:text-sm font-extrabold cursor-pointer">
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                    <span>Order Now</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== HOME PAGE 3-IMAGE BACKGROUND HERO SLIDER ==================== -->
+    <section id="hero-slider-section" class="relative w-full h-[500px] sm:h-[560px] lg:h-[620px] overflow-hidden bg-brand-espresso select-none">
+        
+        <!-- Slide 1 Background: Gourmet Flame-Grilled Burgers -->
+        <div class="hero-slide active absolute inset-0" data-slide="0">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1600&q=85"
+                 onerror="this.src='https://placehold.co/1600x800/1C1917/FAF7F2?text=CraveBite+Kitchen+Burgers'"
+                 alt="Smoky Double Cheddar Gourmet Burger"
+                 class="hero-slide-bg w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-[#1C1917]/60"></div>
+        </div>
+
+        <!-- Slide 2 Background: Loaded Peri-Peri Fries & Crispy Sides -->
+        <div class="hero-slide absolute inset-0" data-slide="1">
+            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1600&q=85"
+                 onerror="this.src='https://placehold.co/1600x800/1C1917/FAF7F2?text=Crispy+Loaded+Fries'"
+                 alt="Golden Crispy Peri-Peri Fries"
+                 class="hero-slide-bg w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-[#1C1917]/60"></div>
+        </div>
+
+        <!-- Slide 3 Background: Feast Combos & Artisan Pizzas -->
+        <div class="hero-slide absolute inset-0" data-slide="2">
+            <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=1600&q=85"
+                 onerror="this.src='https://placehold.co/1600x800/1C1917/FAF7F2?text=CraveBite+Feast+Combos'"
+                 alt="CraveBite Duo & Family Feast Combos"
+                 class="hero-slide-bg w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-[#1C1917]/60"></div>
+        </div>
+
+        <!-- Dead-Center Hero Text Block in Middle of Section -->
+        <div class="relative z-10 max-w-4xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-center text-center">
+            <div class="w-full max-w-2xl mx-auto bg-[#1C1917]/65 backdrop-blur-md border border-white/15 rounded-[2rem] px-6 py-8 sm:px-10 sm:py-10 text-white shadow-2xl flex flex-col items-center">
+                <span id="hero-badge-text" class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-terracotta text-white text-[11px] sm:text-xs font-extrabold tracking-wide uppercase mb-4 shadow-md">
+                    <i class="fa-solid fa-flame"></i> Signature Craft • Starting ₹149
+                </span>
+                <h1 id="hero-heading-text" class="font-display font-black text-3xl sm:text-5xl lg:text-[3.25rem] leading-[1.12] tracking-tight mb-3.5">
+                    Flame-Grilled Burgers Stacked to Perfection
+                </h1>
+                <p id="hero-subtext" class="text-sm sm:text-base text-cream-200 leading-relaxed mb-7 max-w-xl">
+                    Handcrafted brioche buns, melty aged cheddar, crispy paneer &amp; juicy patties seared fresh for every single bite at CraveBite Kitchen.
+                </p>
+                <div class="flex flex-wrap items-center justify-center gap-3.5">
+                    <button id="hero-primary-btn" onclick="openCustomizeModal('b2')"
+                        class="btn-interactive px-7 py-3.5 rounded-full bg-brand-terracotta hover:bg-brand-amber text-white font-extrabold text-sm shadow-lg cursor-pointer flex items-center gap-2">
+                        <span>Order Signature Burger • ₹299</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                    <a href="#menu-section"
+                        class="btn-interactive px-7 py-3.5 rounded-full bg-white/15 hover:bg-white hover:text-brand-espresso backdrop-blur-md text-white font-bold text-sm border border-white/30">
+                        Explore Full Menu
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Slider Dots (Auto-advances smoothly) -->
+        <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/15">
+            <button data-hero-dot="0" aria-label="Slide 1" class="hero-dot w-7 h-2.5 rounded-full bg-brand-terracotta transition-all duration-300 cursor-pointer"></button>
+            <button data-hero-dot="1" aria-label="Slide 2" class="hero-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white transition-all duration-300 cursor-pointer"></button>
+            <button data-hero-dot="2" aria-label="Slide 3" class="hero-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white transition-all duration-300 cursor-pointer"></button>
+        </div>
+    </section>
+
+    <!-- ==================== CATEGORY FILTER PILL BAR & MENU GRID ==================== -->
+    <section id="menu-section" class="py-10 sm:py-14">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            
+            <!-- Floating Rounded White Category Filter Bar -->
+            <div class="bg-white rounded-[2rem] sm:rounded-full shadow-pill p-3 sm:px-6 sm:py-4 mb-9 border border-cream-200">
+                <div id="category-tabs" class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-4">
+                    <button data-category="burgers" class="category-btn active group flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl hover:bg-orange-50/70 transition-all cursor-pointer relative">
+                        <div class="w-11 h-11 rounded-2xl bg-orange-50 group-hover:bg-orange-100 flex items-center justify-center text-xl mb-1.5 transition-transform duration-300 group-hover:scale-115 group-hover:-rotate-6">
+                            🍔
+                        </div>
+                        <span class="text-[11px] sm:text-xs font-extrabold tracking-wider uppercase text-brand-espresso">BURGERS</span>
+                        <span class="cat-indicator w-8 h-1 rounded-full bg-brand-terracotta mt-1.5 transition-all"></span>
+                    </button>
+
+                    <button data-category="chicken" class="category-btn group flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl hover:bg-orange-50/70 transition-all cursor-pointer relative">
+                        <div class="w-11 h-11 rounded-2xl bg-cream-100 group-hover:bg-orange-100 flex items-center justify-center text-xl mb-1.5 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-6">
+                            🍗
+                        </div>
+                        <span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-brand-muted group-hover:text-brand-espresso">CHICKEN</span>
+                        <span class="cat-indicator w-0 h-1 rounded-full bg-brand-terracotta mt-1.5 transition-all"></span>
+                    </button>
+
+                    <button data-category="pizza" class="category-btn group flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl hover:bg-orange-50/70 transition-all cursor-pointer relative">
+                        <div class="w-11 h-11 rounded-2xl bg-cream-100 group-hover:bg-orange-100 flex items-center justify-center text-xl mb-1.5 transition-transform duration-300 group-hover:scale-115 group-hover:-rotate-6">
+                            🍕
+                        </div>
+                        <span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-brand-muted group-hover:text-brand-espresso">PIZZA</span>
+                        <span class="cat-indicator w-0 h-1 rounded-full bg-brand-terracotta mt-1.5 transition-all"></span>
+                    </button>
+
+                    <button data-category="salad" class="category-btn group flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl hover:bg-orange-50/70 transition-all cursor-pointer relative">
+                        <div class="w-11 h-11 rounded-2xl bg-cream-100 group-hover:bg-orange-100 flex items-center justify-center text-xl mb-1.5 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-6">
+                            🥗
+                        </div>
+                        <span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-brand-muted group-hover:text-brand-espresso">SALAD</span>
+                        <span class="cat-indicator w-0 h-1 rounded-full bg-brand-terracotta mt-1.5 transition-all"></span>
+                    </button>
+
+                    <button data-category="fries" class="category-btn group flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl hover:bg-orange-50/70 transition-all cursor-pointer relative">
+                        <div class="w-11 h-11 rounded-2xl bg-cream-100 group-hover:bg-orange-100 flex items-center justify-center text-xl mb-1.5 transition-transform duration-300 group-hover:scale-115 group-hover:-rotate-6">
+                            🍟
+                        </div>
+                        <span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-brand-muted group-hover:text-brand-espresso">FRENCH FRIES</span>
+                        <span class="cat-indicator w-0 h-1 rounded-full bg-brand-terracotta mt-1.5 transition-all"></span>
+                    </button>
+
+                    <button data-category="drinks" class="category-btn group flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl hover:bg-orange-50/70 transition-all cursor-pointer relative">
+                        <div class="w-11 h-11 rounded-2xl bg-cream-100 group-hover:bg-orange-100 flex items-center justify-center text-xl mb-1.5 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-6">
+                            🥤
+                        </div>
+                        <span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-brand-muted group-hover:text-brand-espresso">DRINKS</span>
+                        <span class="cat-indicator w-0 h-1 rounded-full bg-brand-terracotta mt-1.5 transition-all"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interactive Filter Controls: Veg/Non-Veg + Search Bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 id="active-category-title" class="font-display font-extrabold text-xl sm:text-2xl text-brand-espresso">
+                        Popular Burgers &amp; Combos
+                    </h2>
+                    <p class="text-xs sm:text-sm text-brand-muted mt-0.5">Click any dish to customize portion, spice level, and extra toppings</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <!-- Dietary Filter Pills (All / Pure Veg / Non-Veg) -->
+                    <div class="inline-flex bg-white p-1 rounded-full border border-cream-200 shadow-2xs">
+                        <button data-diet="all" class="diet-btn active px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-brand-espresso text-white transition-all cursor-pointer">
+                            All
+                        </button>
+                        <button data-diet="veg" class="diet-btn px-3.5 py-1.5 rounded-full text-xs font-bold text-brand-muted hover:text-brand-olive flex items-center gap-1.5 transition-all cursor-pointer">
+                            <span class="w-2.5 h-2.5 rounded-xs border border-emerald-600 flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span></span>
+                            Veg
+                        </button>
+                        <button data-diet="nonveg" class="diet-btn px-3.5 py-1.5 rounded-full text-xs font-bold text-brand-muted hover:text-red-600 flex items-center gap-1.5 transition-all cursor-pointer">
+                            <span class="w-2.5 h-2.5 rounded-xs border border-red-600 flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-red-600"></span></span>
+                            Non-Veg
+                        </button>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="relative flex-1 sm:w-52">
+                        <i class="fa-solid fa-magnifying-glass text-xs text-brand-muted absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input id="menu-search" type="text" placeholder="Search dishes..."
+                            class="w-full pl-9 pr-4 py-2 rounded-full bg-white border border-cream-200 text-xs font-medium focus:outline-none focus:border-brand-terracotta transition-colors">
+                    </div>
+
+                    <button id="show-all-btn"
+                        class="btn-interactive px-4 py-2 rounded-full bg-white border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta hover:text-brand-terracotta cursor-pointer whitespace-nowrap">
+                        Show All
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3-Column Responsive Menu Grid -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+                <!-- Cards dynamically injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SPECIAL DEALS CAROUSEL SECTION ==================== -->
+    <section id="special-deals" class="py-12 sm:py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <!-- Header + Interactive Pagination Controls (<- 1 2 3 ->) -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                <div>
+                    <span class="text-xs font-extrabold uppercase tracking-widest text-brand-terracotta">Value Feast Boxes</span>
+                    <h2 class="font-display font-black text-2xl sm:text-3xl tracking-tight text-brand-espresso uppercase mt-0.5">
+                        SPECIAL DEALS
+                    </h2>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-card border border-cream-200">
+                    <button id="deal-prev-btn" aria-label="Previous Deal"
+                        class="w-8 h-8 rounded-full flex items-center justify-center text-brand-espresso hover:bg-cream-100 hover:text-brand-terracotta hover:scale-110 active:scale-95 transition-all cursor-pointer">
+                        <i class="fa-solid fa-arrow-left text-xs"></i>
+                    </button>
+                    <div id="deal-page-numbers" class="flex items-center gap-1">
+                        <button data-deal-page="0" class="deal-page-btn w-7 h-7 rounded-full text-xs font-extrabold bg-brand-terracotta text-white transition-all cursor-pointer">1</button>
+                        <button data-deal-page="1" class="deal-page-btn w-7 h-7 rounded-full text-xs font-bold text-brand-muted hover:text-brand-espresso transition-all cursor-pointer">2</button>
+                        <button data-deal-page="2" class="deal-page-btn w-7 h-7 rounded-full text-xs font-bold text-brand-muted hover:text-brand-espresso transition-all cursor-pointer">3</button>
+                    </div>
+                    <button id="deal-next-btn" aria-label="Next Deal"
+                        class="w-8 h-8 rounded-full flex items-center justify-center text-brand-terracotta hover:bg-cream-100 hover:scale-110 active:scale-95 transition-all cursor-pointer">
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Horizontal Deal Cards Container -->
+            <div id="deals-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Deal cards dynamically rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FEATURES / SERVICES ROW (4 CARDS - NO TABLE RESERVATION) ==================== -->
+    <section id="services-section" class="py-10 sm:py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                
+                <!-- Card 1: Easy Digital Payments -->
+                <div class="hover-box bg-white rounded-3xl p-6 text-center shadow-card border border-cream-200 group">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-orange-50 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                        💳
+                    </div>
+                    <h3 class="font-display font-extrabold text-base text-brand-espresso group-hover:text-brand-terracotta transition-colors mb-1.5">UPI &amp; Cards Accepted</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        Seamless support for all Indian UPI apps, debit/credit cards, and contactless payments.
+                    </p>
+                </div>
+
+                <!-- Card 2: Freshly Made to Order (Replaced Table Reservation) -->
+                <div class="hover-box bg-white rounded-3xl p-6 text-center shadow-card border border-cream-200 group">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-amber-50 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
+                        🔥
+                    </div>
+                    <h3 class="font-display font-extrabold text-base text-brand-espresso group-hover:text-brand-terracotta transition-colors mb-1.5">
+                        Freshly Made to Order
+                    </h3>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        Every patty is seared hot on demand with freshly baked buns and crisp farm-picked veggies.
+                    </p>
+                </div>
+
+                <!-- Card 3: 100% Hygienic Open Kitchen -->
+                <div class="hover-box bg-white rounded-3xl p-6 text-center shadow-card border border-cream-200 group">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-emerald-50 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                        ✨
+                    </div>
+                    <h3 class="font-display font-extrabold text-base text-brand-espresso group-hover:text-brand-terracotta transition-colors mb-1.5">
+                        100% Hygienic Kitchen
+                    </h3>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        Prepared in sanitized open stations with segregated pure-veg and non-veg prep zones.
+                    </p>
+                </div>
+
+                <!-- Card 4: Signature House Sauces -->
+                <div class="hover-box bg-white rounded-3xl p-6 text-center shadow-card border border-cream-200 group">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-yellow-50 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
+                        🥣
+                    </div>
+                    <h3 class="font-display font-extrabold text-base text-brand-espresso group-hover:text-brand-terracotta transition-colors mb-1.5">Artisan House Sauces</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        Signature smoky chipotle, mint-garlic aioli, and rich makhani glazes crafted in-house daily.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MINIMAL CLEAN CREATOR FOOTER ==================== -->
+    <footer class="bg-brand-espresso text-cream-100 py-7 mt-8 border-t border-white/10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+            <p class="text-xs sm:text-sm font-medium text-cream-200">
+                &copy; 2026 CraveBite Kitchen &bull; Designed &amp; Created by
+                <a href="https://www.youtube.com/@kamalini_createz" target="_blank" rel="noopener noreferrer"
+                    class="text-brand-terracotta hover:text-amber-300 font-extrabold underline decoration-brand-terracotta/50 hover:decoration-amber-300 transition-colors">
+                    @kamalini_createz
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ==================== SLIDE-OUT NAVIGATION DRAWER (LEFT) ==================== -->
+    <div id="nav-drawer-backdrop" class="fixed inset-0 bg-black/45 backdrop-blur-xs z-50 hidden opacity-0 transition-opacity duration-300">
+        <aside id="nav-drawer" class="w-72 sm:w-80 bg-white h-full shadow-2xl p-6 flex flex-col justify-between -translate-x-full transition-transform duration-300">
+            <div>
+                <div class="flex items-center justify-between pb-6 border-b border-cream-200">
+                    <div class="flex items-center gap-2.5 font-display font-extrabold text-lg text-brand-espresso">
+                        <span class="w-8 h-8 rounded-full bg-brand-terracotta text-white flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-burger"></i>
+                        </span>
+                        <span>CRAVE<span class="text-brand-terracotta">BITE</span></span>
+                    </div>
+                    <button id="close-nav-btn" aria-label="Close Menu"
+                        class="w-9 h-9 rounded-full bg-cream-100 text-brand-espresso hover:bg-brand-terracotta hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <nav class="mt-6 flex flex-col gap-2">
+                    <a href="#hero-slider-section" onclick="closeNavDrawer()" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-brand-espresso hover:bg-cream-100 hover:text-brand-terracotta transition-colors">
+                        <i class="fa-solid fa-house w-5 text-brand-terracotta"></i> Home Showcase
+                    </a>
+                    <a href="#menu-section" onclick="closeNavDrawer()" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-brand-espresso hover:bg-cream-100 hover:text-brand-terracotta transition-colors">
+                        <i class="fa-solid fa-utensils w-5 text-brand-terracotta"></i> Full Menu (₹)
+                    </a>
+                    <a href="#special-deals" onclick="closeNavDrawer()" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-brand-espresso hover:bg-cream-100 hover:text-brand-terracotta transition-colors">
+                        <i class="fa-solid fa-fire w-5 text-brand-terracotta"></i> Special Feast Deals
+                    </a>
+                    <a href="#services-section" onclick="closeNavDrawer()" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-brand-espresso hover:bg-cream-100 hover:text-brand-terracotta transition-colors">
+                        <i class="fa-solid fa-award w-5 text-brand-terracotta"></i> Kitchen Standards
+                    </a>
+                    <button onclick="closeNavDrawer(); openCustomizeModal('b2');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-brand-espresso hover:bg-cream-100 hover:text-brand-terracotta transition-colors text-left cursor-pointer">
+                        <i class="fa-solid fa-sliders w-5 text-brand-terracotta"></i> Customize &amp; Order Preview
+                    </button>
+                </nav>
+            </div>
+
+            <div class="bg-cream-100 border border-cream-200 rounded-2xl p-4">
+                <p class="text-xs font-extrabold text-brand-terracotta uppercase mb-1">CraveBite Kitchen</p>
+                <p class="text-[11px] text-brand-muted leading-relaxed">
+                    Crafted with fresh ingredients, rich sauces, and bold flavors in every bite.
+                </p>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ==================== FRONTEND-ONLY DISH CUSTOMIZER & INSTANT ORDER PREVIEW MODAL ==================== -->
+    <div id="customize-modal" class="fixed inset-0 bg-black/55 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-[2rem] max-w-md w-full p-6 sm:p-7 shadow-2xl relative animate-pop-in">
+            <button onclick="closeCustomizeModal()" aria-label="Close Modal"
+                class="absolute top-5 right-5 w-9 h-9 rounded-full bg-cream-100 text-brand-espresso hover:bg-brand-terracotta hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-4 mb-4">
+                <img id="modal-item-img" src="" alt="Food Item" class="w-24 h-24 rounded-2xl object-cover bg-cream-100 border border-cream-200">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span id="modal-item-cat" class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-orange-50 text-brand-terracotta">Burgers</span>
+                        <span id="modal-item-diet-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">Veg</span>
+                    </div>
+                    <h3 id="modal-item-title" class="font-display font-extrabold text-lg text-brand-espresso mt-1">Item Name</h3>
+                    <p id="modal-item-price" class="font-display font-black text-brand-terracotta text-lg mt-0.5">₹249</p>
+                </div>
+            </div>
+
+            <p id="modal-item-desc" class="text-xs text-brand-muted leading-relaxed mb-4">
+                Delicious freshly prepared meal.
+            </p>
+
+            <!-- Portion / Combo Selector -->
+            <div class="mb-4">
+                <label class="block text-xs font-extrabold uppercase text-brand-espresso mb-2">Choose Portion / Combo</label>
+                <div class="grid grid-cols-3 gap-2" id="modal-size-options">
+                    <button type="button" data-size="Regular" data-extra="0" class="size-opt active py-2 px-2.5 rounded-xl border-2 border-brand-terracotta bg-orange-50 text-xs font-bold text-brand-terracotta cursor-pointer transition-all">
+                        Regular (+₹0)
+                    </button>
+                    <button type="button" data-size="Fries Combo" data-extra="70" class="size-opt py-2 px-2.5 rounded-xl border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta cursor-pointer transition-all">
+                        +Fries (₹70)
+                    </button>
+                    <button type="button" data-size="Full Feast" data-extra="120" class="size-opt py-2 px-2.5 rounded-xl border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta cursor-pointer transition-all">
+                        Full Feast (₹120)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Spice Level -->
+            <div class="mb-4">
+                <label class="block text-xs font-extrabold uppercase text-brand-espresso mb-2">Spice Level</label>
+                <div class="grid grid-cols-3 gap-2" id="modal-spice-options">
+                    <button type="button" data-spice="Classic Mild" class="spice-opt active py-2 px-3 rounded-xl border-2 border-brand-terracotta bg-orange-50 text-xs font-bold text-brand-terracotta cursor-pointer transition-all">
+                        Mild
+                    </button>
+                    <button type="button" data-spice="Peri-Peri Spicy" class="spice-opt py-2 px-3 rounded-xl border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta cursor-pointer transition-all">
+                        🌶️ Spicy
+                    </button>
+                    <button type="button" data-spice="Extra Fiery" class="spice-opt py-2 px-3 rounded-xl border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta cursor-pointer transition-all">
+                        🔥 Fiery
+                    </button>
+                </div>
+            </div>
+
+            <!-- Extra Add-on Checkbox -->
+            <label class="flex items-center justify-between p-3 rounded-2xl bg-cream-100 border border-cream-200 mb-4 cursor-pointer hover:border-brand-terracotta/50 transition-colors">
+                <div class="flex items-center gap-2.5">
+                    <input id="modal-extra-cheese" type="checkbox" class="w-4 h-4 accent-brand-terracotta rounded">
+                    <span class="text-xs font-bold text-brand-espresso">Extra Melted Cheese &amp; Garlic Dip</span>
+                </div>
+                <span class="text-xs font-extrabold text-brand-terracotta">+₹49</span>
+            </label>
+
+            <!-- Quantity Selector & Live Preview Box -->
+            <div class="p-3.5 rounded-2xl bg-orange-50/70 border border-orange-200/70 mb-5 flex items-center justify-between">
+                <div>
+                    <span class="block text-[10px] font-extrabold uppercase tracking-wider text-brand-terracotta">Instant Order Summary</span>
+                    <span id="modal-summary-line" class="text-xs font-bold text-brand-espresso">1x Regular • Classic Mild</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white px-2.5 py-1 rounded-full border border-cream-200 shadow-2xs">
+                    <button type="button" onclick="changeModalQty(-1)" class="w-6 h-6 rounded-full hover:bg-cream-100 text-brand-espresso font-extrabold text-xs cursor-pointer">-</button>
+                    <span id="modal-qty-val" class="text-xs font-black text-brand-espresso w-4 text-center">1</span>
+                    <button type="button" onclick="changeModalQty(1)" class="w-6 h-6 rounded-full hover:bg-cream-100 text-brand-terracotta font-extrabold text-xs cursor-pointer">+</button>
+                </div>
+            </div>
+
+            <!-- Frontend-Only Confirm Order Preview Button (No external links or phone numbers) -->
+            <button type="button" onclick="confirmFrontendOrder()"
+                class="btn-interactive w-full py-3.5 rounded-full bg-brand-terracotta hover:bg-brand-amber text-white font-extrabold text-sm shadow-lg cursor-pointer flex items-center justify-center gap-2">
+                <i class="fa-solid fa-circle-check"></i>
+                <span id="modal-confirm-btn-text">Confirm Selection • ₹249</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== ON-SCREEN ORDER CONFIRMATION MODAL (FRONTEND ONLY) ==================== -->
+    <div id="order-confirmed-modal" class="fixed inset-0 bg-black/55 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-[2rem] max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-pop-in text-center">
+            <button onclick="closeOrderConfirmedModal()" aria-label="Close Confirmation Modal"
+                class="absolute top-5 right-5 w-9 h-9 rounded-full bg-cream-100 text-brand-espresso hover:bg-brand-terracotta hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="w-16 h-16 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-3xl mb-4 shadow-inner">
+                <i class="fa-solid fa-check-circle"></i>
+            </div>
+
+            <span class="inline-block px-3 py-1 rounded-full bg-orange-50 text-brand-terracotta text-[11px] font-extrabold uppercase mb-2">
+                CraveBite Kitchen Preview
+            </span>
+            <h3 class="font-display font-black text-2xl text-brand-espresso">Order Summary Ready!</h3>
+            <p class="text-xs text-brand-muted mt-1.5 leading-relaxed">
+                Your customized dish selection is prepared below.
+            </p>
+
+            <div id="confirmed-summary-card" class="my-5 p-4 rounded-2xl bg-cream-100 border border-cream-200 text-left space-y-1.5">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <button type="button" onclick="closeOrderConfirmedModal()"
+                class="btn-interactive w-full py-3.5 rounded-full bg-brand-terracotta hover:bg-brand-amber text-white font-extrabold text-sm cursor-pointer">
+                Continue Exploring Menu
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast-notification"
+        class="fixed bottom-5 right-5 z-50 bg-brand-espresso text-white px-5 py-3 rounded-full shadow-xl flex items-center gap-2.5 text-xs font-bold translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+        <span class="w-5 h-5 rounded-full bg-brand-terracotta flex items-center justify-center text-[10px]">
+            <i class="fa-solid fa-check"></i>
+        </span>
+        <span id="toast-message">Selection updated!</span>
+    </div>
+
+    <!-- ==================== INTERACTIVE JAVASCRIPT ==================== -->
+    <script>
+        // 1. MENU DATA (Indian Rupees ₹ + Veg / Non-Veg tags + Curated high-res Unsplash images)
+        const menuItems = [
+            // BURGERS
+            {
+                id: 'b1',
+                name: 'Crispy Paneer Makhani Royale',
+                category: 'burgers',
+                diet: 'veg',
+                price: 229,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80',
+                desc: 'Thick golden-crusted cottage cheese patty layered with creamy makhani glaze, pickled onions, and cheddar.'
+            },
+            {
+                id: 'b2',
+                name: 'Smoky Double Cheddar Burger',
+                category: 'burgers',
+                diet: 'nonveg',
+                price: 299,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80',
+                desc: 'Double flame-grilled juicy patties stacked with aged cheddar slices, caramelized onions, and smoky aioli.'
+            },
+            {
+                id: 'b3',
+                name: 'Fiery Peri-Peri Chicken Burger',
+                category: 'burgers',
+                diet: 'nonveg',
+                price: 249,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=600&q=80',
+                desc: 'Crunchy buttermilk chicken fillet tossed in spicy African peri-peri sauce with crisp iceberg lettuce.'
+            },
+            {
+                id: 'b4',
+                name: 'Classic Aloo Tikki Cheese Crunch',
+                category: 'burgers',
+                diet: 'veg',
+                price: 149,
+                rating: 4,
+                image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=600&q=80',
+                desc: 'Herb-spiced potato & green pea patty topped with tangy mint mayo, fresh tomato, and melted cheese.'
+            },
+            {
+                id: 'b5',
+                name: 'Tandoori Grilled Chicken Feast',
+                category: 'burgers',
+                diet: 'nonveg',
+                price: 279,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=600&q=80',
+                desc: 'Chargrilled tandoori chicken breast served on a toasted brioche bun with garlic yogurt sauce & fries.'
+            },
+            {
+                id: 'b6',
+                name: 'Mushroom & Swiss Melt Burger',
+                category: 'burgers',
+                diet: 'veg',
+                price: 239,
+                rating: 4,
+                image: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=600&q=80',
+                desc: 'Sautéed garlic button mushrooms over a crispy veggie patty smothered in rich Swiss cheese.'
+            },
+
+            // CHICKEN
+            {
+                id: 'c1',
+                name: 'Southern Crispy Chicken Bucket (6 Pc)',
+                category: 'chicken',
+                diet: 'nonveg',
+                price: 399,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
+                desc: 'Six golden crunchy fried drumsticks marinated in 11 herbs and spices with garlic dip.'
+            },
+            {
+                id: 'c2',
+                name: 'Smoky Honey BBQ Wings (10 Pc)',
+                category: 'chicken',
+                diet: 'nonveg',
+                price: 289,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=600&q=80',
+                desc: 'Tender chicken wings glazed in smoky honey barbecue sauce, garnished with toasted sesame seeds.'
+            },
+            {
+                id: 'c3',
+                name: 'Crispy Chicken Popcorn & Strips',
+                category: 'chicken',
+                diet: 'nonveg',
+                price: 199,
+                rating: 4,
+                image: 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80',
+                desc: 'Bite-sized crunchy chicken tenders dusted with peri-peri seasoning and chipotle dip.'
+            },
+
+            // PIZZA
+            {
+                id: 'p1',
+                name: 'Paneer Tikka & Jalapeño Woodfire',
+                category: 'pizza',
+                diet: 'veg',
+                price: 349,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80',
+                desc: 'Hand-stretched crust loaded with smoky paneer tikka cubes, red paprika, jalapeños, and mozzarella.'
+            },
+            {
+                id: 'p2',
+                name: 'Classic Margherita Basil Crust',
+                category: 'pizza',
+                diet: 'veg',
+                price: 269,
+                rating: 4,
+                image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80',
+                desc: 'Rich plum tomato sauce, fresh stretchy mozzarella cheese, cherry tomatoes, and sweet basil.'
+            },
+            {
+                id: 'p3',
+                name: 'Spicy Chicken Keema & Pepperoni',
+                category: 'pizza',
+                diet: 'nonveg',
+                price: 389,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80',
+                desc: 'Loaded with spiced chicken keema, chicken pepperoni slices, onions, and extra cheddar.'
+            },
+
+            // SALAD
+            {
+                id: 's1',
+                name: 'Avocado & Quinoa Superfood Bowl',
+                category: 'salad',
+                diet: 'veg',
+                price: 219,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80',
+                desc: 'Crisp baby spinach, sliced avocado, roasted chickpeas, cherry tomatoes, and lemon-herb dressing.'
+            },
+            {
+                id: 's2',
+                name: 'Chargrilled Chicken Caesar Salad',
+                category: 'salad',
+                diet: 'nonveg',
+                price: 249,
+                rating: 4,
+                image: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=600&q=80',
+                desc: 'Romaine lettuce, herb-grilled chicken strips, garlic croutons, shaved parmesan, and Caesar dressing.'
+            },
+
+            // FRENCH FRIES
+            {
+                id: 'f1',
+                name: 'Peri-Peri Masala Crinkle Fries',
+                category: 'fries',
+                diet: 'veg',
+                price: 149,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80',
+                desc: 'Crispy golden skin-on fries tossed in zesty peri-peri spice mix and served with creamy mayo.'
+            },
+            {
+                id: 'f2',
+                name: 'Loaded Cheesy Jalapeño Fries',
+                category: 'fries',
+                diet: 'veg',
+                price: 189,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=600&q=80',
+                desc: 'Drenched in warm cheddar cheese sauce, sliced jalapeños, and crispy herb seasoning.'
+            },
+
+            // DRINKS
+            {
+                id: 'd1',
+                name: 'Belgian Choco Brownie Shake',
+                category: 'drinks',
+                diet: 'veg',
+                price: 169,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80',
+                desc: 'Thick chocolate ice cream milkshake blended with fudgy brownie chunks and whipped cream.'
+            },
+            {
+                id: 'd2',
+                name: 'Fresh Strawberry Cream Shake',
+                category: 'drinks',
+                diet: 'veg',
+                price: 159,
+                rating: 5,
+                image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80',
+                desc: 'Velvety vanilla bean ice cream blended with sweet strawberry compote.'
+            },
+            {
+                id: 'd3',
+                name: 'Chilled Masala Cola Float',
+                category: 'drinks',
+                diet: 'veg',
+                price: 119,
+                rating: 4,
+                image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80',
+                desc: 'Sparkling chilled cola infused with tangy roasted cumin masala and zesty lime.'
+            }
+        ];
+
+        // 2. SPECIAL DEALS DATA (3 pages in Indian Rupees ₹)
+        const specialDealsPages = [
+            [
+                {
+                    id: 'deal1',
+                    title: 'CraveBite Duo Royal Feast',
+                    diet: 'nonveg',
+                    rating: 5,
+                    items: [
+                        { icon: '🍔', text: '2 Smoky Double Cheddar Burgers' },
+                        { icon: '🥤', text: '2 Chilled Masala Colas (300ml)' },
+                        { icon: '🍟', text: '1 Large Peri-Peri Masala Fries' }
+                    ],
+                    price: 599,
+                    image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=600&q=80'
+                },
+                {
+                    id: 'deal2',
+                    title: 'Pure Veg Paneer Party Box',
+                    diet: 'veg',
+                    rating: 5,
+                    items: [
+                        { icon: '🍔', text: '2 Crispy Paneer Makhani Burgers' },
+                        { icon: '🥤', text: '2 Strawberry Cream Shakes' },
+                        { icon: '🍟', text: '1 Loaded Cheesy Jalapeño Fries' }
+                    ],
+                    price: 549,
+                    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80'
+                }
+            ],
+            [
+                {
+                    id: 'deal3',
+                    title: 'Family Weekend Mega Combo',
+                    diet: 'nonveg',
+                    rating: 5,
+                    items: [
+                        { icon: '🍔', text: '4 Gourmet Burgers (Choice of Veg/Chicken)' },
+                        { icon: '🥤', text: '4 Chilled Beverages' },
+                        { icon: '🍟', text: '2 Large Golden Fries Boxes' }
+                    ],
+                    price: 999,
+                    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80'
+                },
+                {
+                    id: 'deal4',
+                    title: 'Crispy Chicken Crunch Bucket',
+                    diet: 'nonveg',
+                    rating: 5,
+                    items: [
+                        { icon: '🍗', text: '6 Southern Crispy Drumsticks' },
+                        { icon: '🥤', text: '2 Belgian Choco Shakes' },
+                        { icon: '🍟', text: '1 Peri-Peri Crinkle Fries' }
+                    ],
+                    price: 649,
+                    image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80'
+                }
+            ],
+            [
+                {
+                    id: 'deal5',
+                    title: 'Woodfire Pizza & Wings Night',
+                    diet: 'nonveg',
+                    rating: 5,
+                    items: [
+                        { icon: '🍕', text: '1 Large Paneer/Chicken Woodfire Pizza' },
+                        { icon: '🍗', text: '10 Smoky Honey BBQ Wings' },
+                        { icon: '🥤', text: '2 Chilled Masala Colas' }
+                    ],
+                    price: 699,
+                    image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80'
+                },
+                {
+                    id: 'deal6',
+                    title: 'Student Pocket Combo',
+                    diet: 'veg',
+                    rating: 5,
+                    items: [
+                        { icon: '🍔', text: '2 Classic Aloo Tikki Cheese Burgers' },
+                        { icon: '🍟', text: '1 Regular Masala Fries' },
+                        { icon: '🥤', text: '2 Chilled Colas' }
+                    ],
+                    price: 349,
+                    image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=600&q=80'
+                }
+            ]
+        ];
+
+        // 3. STATE MANAGEMENT
+        let currentHeroSlide = 0;
+        let heroAutoInterval = null;
+        let currentCategory = 'burgers';
+        let currentDiet = 'all';
+        let currentDealPage = 0;
+        let activeModalItem = null;
+        let selectedSize = 'Regular';
+        let selectedSizeExtra = 0;
+        let selectedSpice = 'Classic Mild';
+        let modalQty = 1;
+
+        // 4. HOME PAGE 3-IMAGE BACKGROUND SLIDER LOGIC
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        const heroDots = document.querySelectorAll('.hero-dot');
+        const heroSlideContent = [
+            {
+                badge: '<i class="fa-solid fa-flame"></i> Signature Craft • Starting ₹149',
+                heading: 'Flame-Grilled Burgers Stacked to Perfection',
+                subtext: 'Handcrafted brioche buns, melty aged cheddar, crispy paneer &amp; juicy patties seared fresh for every single bite at CraveBite Kitchen.',
+                ctaLabel: 'Order Signature Burger • ₹299',
+                itemId: 'b2'
+            },
+            {
+                badge: '<i class="fa-solid fa-bolt"></i> Crunch Overload • Hot &amp; Golden',
+                heading: 'Loaded Cheese &amp; Peri-Peri Crinkle Fries',
+                subtext: 'Skin-on golden fries tossed in zesty house peri-peri seasoning and drenched in warm cheddar jalapeño sauce.',
+                ctaLabel: 'Customize Loaded Fries • ₹189',
+                itemId: 'f2'
+            },
+            {
+                badge: '<i class="fa-solid fa-star"></i> Value Feast Boxes • Veg &amp; Non-Veg',
+                heading: 'Ultimate Duo &amp; Weekend Feast Boxes',
+                subtext: 'Pair your favorite burgers or woodfire pizzas with crispy fries and thick Belgian chocolate shakes at unbeatable combo prices.',
+                ctaLabel: 'Try Paneer Royale • ₹229',
+                itemId: 'b1'
+            }
+        ];
+
+        function goToHeroSlide(index) {
+            currentHeroSlide = (index + heroSlides.length) % heroSlides.length;
+
+            heroSlides.forEach((slide, idx) => {
+                if (idx === currentHeroSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            const activeContent = heroSlideContent[currentHeroSlide];
+            if (activeContent) {
+                document.getElementById('hero-badge-text').innerHTML = activeContent.badge;
+                document.getElementById('hero-heading-text').innerHTML = activeContent.heading;
+                document.getElementById('hero-subtext').innerHTML = activeContent.subtext;
+                const primaryBtn = document.getElementById('hero-primary-btn');
+                primaryBtn.innerHTML = `<span>${activeContent.ctaLabel}</span><i class="fa-solid fa-arrow-right text-xs"></i>`;
+                primaryBtn.setAttribute('onclick', `openCustomizeModal('${activeContent.itemId}')`);
+            }
+
+            heroDots.forEach((dot, idx) => {
+                if (idx === currentHeroSlide) {
+                    dot.className = 'hero-dot w-7 h-2.5 rounded-full bg-brand-terracotta transition-all duration-300 cursor-pointer';
+                } else {
+                    dot.className = 'hero-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white transition-all duration-300 cursor-pointer';
+                }
+            });
+        }
+
+        function startHeroAutoPlay() {
+            stopHeroAutoPlay();
+            heroAutoInterval = setInterval(() => {
+                goToHeroSlide(currentHeroSlide + 1);
+            }, 5000);
+        }
+
+        function stopHeroAutoPlay() {
+            if (heroAutoInterval) {
+                clearInterval(heroAutoInterval);
+                heroAutoInterval = null;
+            }
+        }
+
+        heroDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                goToHeroSlide(parseInt(dot.dataset.heroDot, 10));
+                startHeroAutoPlay();
+            });
+        });
+
+        const heroSectionEl = document.getElementById('hero-slider-section');
+        heroSectionEl.addEventListener('mouseenter', stopHeroAutoPlay);
+        heroSectionEl.addEventListener('mouseleave', startHeroAutoPlay);
+
+        // 5. HELPER: RENDER STAR RATINGS & DIET INDICATOR
+        function renderStars(count) {
+            let html = '<div class="flex items-center gap-0.5 text-amber-400 text-xs">';
+            for (let i = 1; i <= 5; i++) {
+                html += i <= count
+                    ? '<i class="fa-solid fa-star"></i>'
+                    : '<i class="fa-regular fa-star text-gray-300"></i>';
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function renderDietBadge(diet) {
+            if (diet === 'veg') {
+                return `
+                    <span title="Pure Veg" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 text-[10px] font-bold text-emerald-700">
+                        <span class="w-2.5 h-2.5 border border-emerald-600 flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span></span>
+                        VEG
+                    </span>`;
+            }
+            return `
+                <span title="Non-Veg" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-red-50 border border-red-200 text-[10px] font-bold text-red-700">
+                    <span class="w-2.5 h-2.5 border border-red-600 flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-red-600"></span></span>
+                    NON-VEG
+                </span>`;
+        }
+
+        // 6. RENDER MENU GRID WITH HOVER ANIMATIONS
+        function renderMenuGrid(category = 'burgers', searchQuery = '', diet = currentDiet) {
+            const grid = document.getElementById('menu-grid');
+            const titleEl = document.getElementById('active-category-title');
+
+            const categoryTitles = {
+                all: 'All CraveBite Gourmet Dishes',
+                burgers: 'Popular Burgers & Combos',
+                chicken: 'Crispy Fried Chicken & Wings',
+                pizza: 'Woodfire Artisan Pizzas',
+                salad: 'Fresh Garden Bowls & Salads',
+                fries: 'Golden Crispy French Fries',
+                drinks: 'Thick Shakes & Chilled Coolers'
+            };
+
+            titleEl.textContent = searchQuery
+                ? `Search results for "${searchQuery}"`
+                : (categoryTitles[category] || 'Menu');
+
+            const filtered = menuItems.filter(item => {
+                const matchesCategory = category === 'all' || item.category === category;
+                const matchesDiet = diet === 'all' || item.diet === diet;
+                const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.desc.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesDiet && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full bg-white rounded-3xl p-12 text-center shadow-card border border-cream-200">
+                        <p class="text-3xl mb-2">🍽️</p>
+                        <h3 class="font-display font-bold text-base text-brand-espresso">No matching dishes found</h3>
+                        <p class="text-xs text-brand-muted mt-1 mb-4">Try switching between Veg/Non-Veg or exploring another category.</p>
+                        <button onclick="resetFilters()" class="btn-interactive px-5 py-2 rounded-full bg-brand-terracotta text-white text-xs font-bold cursor-pointer">Reset Filters</button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map((item, idx) => `
+                <div style="animation-delay: ${idx * 45}ms"
+                    class="animate-pop-in hover-box bg-white rounded-[1.75rem] p-5 shadow-card border border-cream-200 flex flex-col justify-between group">
+                    
+                    <div>
+                        <!-- Food Photo Container -->
+                        <div onclick="openCustomizeModal('${item.id}')"
+                            class="relative h-48 rounded-2xl bg-cream-100 overflow-hidden mb-4 cursor-pointer">
+                            <img src="${item.image}"
+                                 onerror="this.src='https://placehold.co/500x350/FAF7F2/D95D24?text=${encodeURIComponent(item.name)}'"
+                                 alt="${item.name}"
+                                 class="hover-img-zoom w-full h-full object-cover">
+                            
+                            <!-- Top Left Veg/Non-Veg Pill -->
+                            <div class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-xs px-2 py-1 rounded-lg shadow-xs">
+                                ${renderDietBadge(item.diet)}
+                            </div>
+
+                            <!-- Top Right Customize Pill -->
+                            <button type="button"
+                                class="absolute top-2.5 right-2.5 bg-white/95 backdrop-blur-xs group-hover:bg-brand-terracotta group-hover:text-white text-brand-espresso text-[11px] font-bold px-3 py-1 rounded-full shadow-xs transition-colors cursor-pointer">
+                                <i class="fa-solid fa-sliders mr-1"></i> Customize
+                            </button>
+                        </div>
+
+                        <!-- Title & Description -->
+                        <h3 onclick="openCustomizeModal('${item.id}')"
+                            class="font-display font-extrabold text-base text-brand-espresso group-hover:text-brand-terracotta transition-colors cursor-pointer line-clamp-1">
+                            ${item.name}
+                        </h3>
+                        <p class="text-xs text-brand-muted line-clamp-2 mt-1 leading-relaxed">
+                            ${item.desc}
+                        </p>
+                    </div>
+
+                    <!-- Bottom Row: Stars + INR Price + Frontend Order Button -->
+                    <div class="pt-4 mt-4 border-t border-cream-200 flex items-center justify-between">
+                        <div>
+                            ${renderStars(item.rating)}
+                            <span class="block font-display font-black text-lg text-brand-terracotta mt-1">
+                                ₹${item.price}
+                            </span>
+                        </div>
+
+                        <button onclick="openCustomizeModal('${item.id}')"
+                            class="btn-interactive flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-orange-50 hover:bg-brand-terracotta text-brand-terracotta hover:text-white font-extrabold text-xs cursor-pointer shadow-2xs">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span>Order Now</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 7. RENDER SPECIAL DEALS CAROUSEL
+        function renderSpecialDeals(pageIndex) {
+            const container = document.getElementById('deals-container');
+            const deals = specialDealsPages[pageIndex];
+
+            document.querySelectorAll('.deal-page-btn').forEach((btn, idx) => {
+                if (idx === pageIndex) {
+                    btn.className = 'deal-page-btn w-7 h-7 rounded-full text-xs font-extrabold bg-brand-terracotta text-white shadow-sm transition-all cursor-pointer';
+                } else {
+                    btn.className = 'deal-page-btn w-7 h-7 rounded-full text-xs font-bold text-brand-muted hover:text-brand-espresso transition-all cursor-pointer';
+                }
+            });
+
+            container.innerHTML = deals.map(deal => `
+                <div class="animate-pop-in hover-box relative bg-white rounded-[2rem] p-6 sm:p-7 pb-10 shadow-card border border-cream-200 mb-4 group">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-5">
+                        <!-- Left Details -->
+                        <div class="w-full sm:w-1/2">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                ${renderDietBadge(deal.diet)}
+                                ${renderStars(deal.rating)}
+                            </div>
+                            <h3 class="font-display font-extrabold text-lg text-brand-espresso group-hover:text-brand-terracotta transition-colors">${deal.title}</h3>
+
+                            <ul class="mt-3.5 space-y-2 text-xs text-brand-muted font-medium">
+                                ${deal.items.map(i => `
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-sm">${i.icon}</span>
+                                        <span>${i.text}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+
+                            <div class="mt-4 pt-3 border-t border-cream-200 flex items-baseline gap-2">
+                                <span class="text-xs font-bold text-brand-espresso">Combo Price :</span>
+                                <span class="font-display font-black text-xl text-brand-terracotta">₹${deal.price}</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Combo Image -->
+                        <div class="w-full sm:w-1/2 flex justify-center overflow-hidden rounded-2xl">
+                            <img src="${deal.image}"
+                                 onerror="this.src='https://placehold.co/320x240/FAF7F2/D95D24?text=${encodeURIComponent(deal.title)}'"
+                                 alt="${deal.title}"
+                                 class="hover-img-zoom w-full max-w-[240px] h-44 object-cover rounded-2xl shadow-md border border-cream-200">
+                        </div>
+                    </div>
+
+                    <!-- Overlapping Bottom Pill Button (Frontend-Only Confirmation) -->
+                    <button onclick="openDealPreview('${deal.title}', ${deal.price})"
+                        class="btn-interactive absolute -bottom-5 left-1/2 -translate-x-1/2 px-7 py-3 rounded-full bg-brand-terracotta hover:bg-brand-amber text-white font-extrabold text-xs shadow-lg cursor-pointer whitespace-nowrap flex items-center gap-2">
+                        <i class="fa-solid fa-sparkles"></i>
+                        <span>Order Combo • ₹${deal.price}</span>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // 8. CATEGORY & DIET FILTER INTERACTIONS
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.category-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.querySelector('span:nth-child(2)').classList.replace('text-brand-espresso', 'text-brand-muted');
+                    b.querySelector('span:nth-child(2)').classList.replace('font-extrabold', 'font-bold');
+                    b.querySelector('.cat-indicator').classList.replace('w-8', 'w-0');
+                    b.querySelector('div').classList.replace('bg-orange-50', 'bg-cream-100');
+                });
+
+                btn.classList.add('active');
+                btn.querySelector('span:nth-child(2)').classList.replace('text-brand-muted', 'text-brand-espresso');
+                btn.querySelector('span:nth-child(2)').classList.replace('font-bold', 'font-extrabold');
+                btn.querySelector('.cat-indicator').classList.replace('w-0', 'w-8');
+                btn.querySelector('div').classList.replace('bg-cream-100', 'bg-orange-50');
+
+                currentCategory = btn.dataset.category;
+                document.getElementById('menu-search').value = '';
+                renderMenuGrid(currentCategory, '', currentDiet);
+            });
+        });
+
+        document.querySelectorAll('.diet-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.diet-btn').forEach(b => {
+                    b.className = 'diet-btn px-3.5 py-1.5 rounded-full text-xs font-bold text-brand-muted hover:text-brand-espresso flex items-center gap-1.5 transition-all cursor-pointer';
+                });
+                btn.className = 'diet-btn active px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-brand-espresso text-white flex items-center gap-1.5 transition-all cursor-pointer';
+                currentDiet = btn.dataset.diet;
+                renderMenuGrid(currentCategory, document.getElementById('menu-search').value, currentDiet);
+            });
+        });
+
+        document.getElementById('show-all-btn').addEventListener('click', () => {
+            currentCategory = 'all';
+            document.getElementById('menu-search').value = '';
+            document.querySelectorAll('.category-btn').forEach(b => {
+                b.querySelector('.cat-indicator').classList.replace('w-8', 'w-0');
+            });
+            renderMenuGrid('all', '', currentDiet);
+        });
+
+        document.getElementById('menu-search').addEventListener('input', (e) => {
+            renderMenuGrid(currentCategory, e.target.value, currentDiet);
+        });
+
+        function resetFilters() {
+            currentCategory = 'burgers';
+            currentDiet = 'all';
+            document.getElementById('menu-search').value = '';
+            renderMenuGrid('burgers', '', 'all');
+        }
+
+        // 9. SPECIAL DEALS PAGINATION CONTROLS
+        document.querySelectorAll('.deal-page-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentDealPage = parseInt(btn.dataset.dealPage, 10);
+                renderSpecialDeals(currentDealPage);
+            });
+        });
+
+        document.getElementById('deal-prev-btn').addEventListener('click', () => {
+            currentDealPage = (currentDealPage - 1 + specialDealsPages.length) % specialDealsPages.length;
+            renderSpecialDeals(currentDealPage);
+        });
+
+        document.getElementById('deal-next-btn').addEventListener('click', () => {
+            currentDealPage = (currentDealPage + 1) % specialDealsPages.length;
+            renderSpecialDeals(currentDealPage);
+        });
+
+        // 10. FRONTEND-ONLY DISH CUSTOMIZER & ORDER SUMMARY PREVIEW
+        function openCustomizeModal(itemId) {
+            const item = menuItems.find(m => m.id === itemId);
+            if (!item) return;
+
+            activeModalItem = item;
+            selectedSize = 'Regular';
+            selectedSizeExtra = 0;
+            selectedSpice = 'Classic Mild';
+            modalQty = 1;
+            document.getElementById('modal-extra-cheese').checked = false;
+            document.getElementById('modal-qty-val').textContent = '1';
+
+            document.querySelectorAll('.size-opt').forEach((b, i) => {
+                b.className = i === 0
+                    ? 'size-opt active py-2 px-2.5 rounded-xl border-2 border-brand-terracotta bg-orange-50 text-xs font-bold text-brand-terracotta cursor-pointer transition-all'
+                    : 'size-opt py-2 px-2.5 rounded-xl border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta cursor-pointer transition-all';
+            });
+            document.querySelectorAll('.spice-opt').forEach((b, i) => {
+                b.className = i === 0
+                    ? 'spice-opt active py-2 px-3 rounded-xl border-2 border-brand-terracotta bg-orange-50 text-xs font-bold text-brand-terracotta cursor-pointer transition-all'
+                    : 'spice-opt py-2 px-3 rounded-xl border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta cursor-pointer transition-all';
+            });
+
+            document.getElementById('modal-item-img').src = item.image;
+            document.getElementById('modal-item-cat').textContent = item.category;
+            const dietBadge = document.getElementById('modal-item-diet-badge');
+            dietBadge.textContent = item.diet === 'veg' ? 'Pure Veg' : 'Non-Veg';
+            dietBadge.className = item.diet === 'veg'
+                ? 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700'
+                : 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700';
+
+            document.getElementById('modal-item-title').textContent = item.name;
+            document.getElementById('modal-item-desc').textContent = item.desc;
+            updateModalPrice();
+
+            const modal = document.getElementById('customize-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeCustomizeModal() {
+            const modal = document.getElementById('customize-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function changeModalQty(delta) {
+            modalQty = Math.max(1, Math.min(10, modalQty + delta));
+            document.getElementById('modal-qty-val').textContent = modalQty;
+            updateModalPrice();
+        }
+
+        function getCalculatedModalPrice() {
+            if (!activeModalItem) return 0;
+            const extraCheese = document.getElementById('modal-extra-cheese').checked ? 49 : 0;
+            return (activeModalItem.price + selectedSizeExtra + extraCheese) * modalQty;
+        }
+
+        function updateModalPrice() {
+            const total = getCalculatedModalPrice();
+            const hasExtraCheese = document.getElementById('modal-extra-cheese').checked;
+            document.getElementById('modal-item-price').textContent = `₹${total}`;
+            document.getElementById('modal-summary-line').textContent =
+                `${modalQty}x ${selectedSize} • ${selectedSpice}${hasExtraCheese ? ' • +Cheese Dip' : ''}`;
+            document.getElementById('modal-confirm-btn-text').textContent = `Confirm Selection • ₹${total}`;
+        }
+
+        function confirmFrontendOrder() {
+            if (!activeModalItem) return;
+            const total = getCalculatedModalPrice();
+            const hasExtraCheese = document.getElementById('modal-extra-cheese').checked;
+
+            closeCustomizeModal();
+
+            const summaryCard = document.getElementById('confirmed-summary-card');
+            summaryCard.innerHTML = `
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-bold text-brand-muted">Dish:</span>
+                    <span class="font-extrabold text-brand-espresso">${modalQty}x ${activeModalItem.name}</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-bold text-brand-muted">Portion &amp; Spice:</span>
+                    <span class="font-bold text-brand-espresso">${selectedSize} • ${selectedSpice}</span>
+                </div>
+                ${hasExtraCheese ? `
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-bold text-brand-muted">Add-on:</span>
+                    <span class="font-bold text-emerald-700">+Extra Melted Cheese &amp; Garlic Dip</span>
+                </div>` : ''}
+                <div class="pt-2.5 mt-2 border-t border-cream-200 flex justify-between items-center">
+                    <span class="text-xs font-extrabold text-brand-espresso">Total Estimate:</span>
+                    <span class="font-display font-black text-lg text-brand-terracotta">₹${total}</span>
+                </div>
+            `;
+
+            const confirmedModal = document.getElementById('order-confirmed-modal');
+            confirmedModal.classList.remove('hidden');
+            confirmedModal.classList.add('flex');
+            showToast('Dish customized & previewed on screen!');
+        }
+
+        function openDealPreview(dealTitle, dealPrice) {
+            const summaryCard = document.getElementById('confirmed-summary-card');
+            summaryCard.innerHTML = `
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-bold text-brand-muted">Special Combo:</span>
+                    <span class="font-extrabold text-brand-espresso">${dealTitle}</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-bold text-brand-muted">Kitchen Prep:</span>
+                    <span class="font-bold text-emerald-700">Freshly Made to Order</span>
+                </div>
+                <div class="pt-2.5 mt-2 border-t border-cream-200 flex justify-between items-center">
+                    <span class="text-xs font-extrabold text-brand-espresso">Combo Total:</span>
+                    <span class="font-display font-black text-lg text-brand-terracotta">₹${dealPrice}</span>
+                </div>
+            `;
+            const confirmedModal = document.getElementById('order-confirmed-modal');
+            confirmedModal.classList.remove('hidden');
+            confirmedModal.classList.add('flex');
+            showToast(`${dealTitle} selected!`);
+        }
+
+        function closeOrderConfirmedModal() {
+            const confirmedModal = document.getElementById('order-confirmed-modal');
+            confirmedModal.classList.add('hidden');
+            confirmedModal.classList.remove('flex');
+        }
+
+        document.querySelectorAll('.size-opt').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.size-opt').forEach(b => {
+                    b.className = 'size-opt py-2 px-2.5 rounded-xl border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta cursor-pointer transition-all';
+                });
+                btn.className = 'size-opt active py-2 px-2.5 rounded-xl border-2 border-brand-terracotta bg-orange-50 text-xs font-bold text-brand-terracotta cursor-pointer transition-all';
+                selectedSize = btn.dataset.size;
+                selectedSizeExtra = parseInt(btn.dataset.extra, 10);
+                updateModalPrice();
+            });
+        });
+
+        document.querySelectorAll('.spice-opt').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.spice-opt').forEach(b => {
+                    b.className = 'spice-opt py-2 px-3 rounded-xl border border-cream-200 text-xs font-bold text-brand-espresso hover:border-brand-terracotta cursor-pointer transition-all';
+                });
+                btn.className = 'spice-opt active py-2 px-3 rounded-xl border-2 border-brand-terracotta bg-orange-50 text-xs font-bold text-brand-terracotta cursor-pointer transition-all';
+                selectedSpice = btn.dataset.spice;
+                updateModalPrice();
+            });
+        });
+
+        document.getElementById('modal-extra-cheese').addEventListener('change', updateModalPrice);
+
+        // 11. DRAWER & TOAST CONTROLLERS
+        const navBackdrop = document.getElementById('nav-drawer-backdrop');
+        const navDrawer = document.getElementById('nav-drawer');
+        document.getElementById('open-nav-btn').addEventListener('click', () => {
+            navBackdrop.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                navBackdrop.classList.remove('opacity-0');
+                navDrawer.classList.remove('-translate-x-full');
+            });
+        });
+        function closeNavDrawer() {
+            navBackdrop.classList.add('opacity-0');
+            navDrawer.classList.add('-translate-x-full');
+            setTimeout(() => navBackdrop.classList.add('hidden'), 300);
+        }
+        document.getElementById('close-nav-btn').addEventListener('click', closeNavDrawer);
+        navBackdrop.addEventListener('click', (e) => { if (e.target === navBackdrop) closeNavDrawer(); });
+
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notification');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2600);
+        }
+
+        // 12. INITIALIZE ON PAGE LOAD
+        window.addEventListener('DOMContentLoaded', () => {
+            startHeroAutoPlay();
+            renderMenuGrid('burgers');
+            renderSpecialDeals(0);
+        });
+    </script>
+</body>
+</html>
